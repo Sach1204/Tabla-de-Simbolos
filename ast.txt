@@ -1,0 +1,44 @@
+== Gramática ==
+
+Programa   -> ListaSentencias EOF
+
+ListaSentencias -> Sentencia (NEWLINE Sentencia)* NEWLINE*
+
+Sentencia  -> ID '=' Expresion
+            | 'print' '(' Expresion ')'
+
+Expresion  -> Termino (('+' | '-') Termino)*
+
+Termino    -> Factor (('*' | '/') Factor)*
+
+Factor     -> NUM
+            | ID
+            | '(' Expresion ')'
+
+
+== AST ==
+Program
+  Assign(name=x)
+    Num(4.0)
+  Assign(name=y)
+    BinOp(op=*)
+      Var(x)
+      Num(2.0)
+  Assign(name=z)
+    BinOp(op=-)
+      BinOp(op=+)
+        Var(y)
+        Var(x)
+      Num(3.0)
+  Assign(name=w)
+    BinOp(op=+)
+      BinOp(op=*)
+        Var(z)
+        Num(2.0)
+      BinOp(op=/)
+        Var(y)
+        Var(x)
+  Print
+    Var(x)
+  Print
+    Var(w)
